@@ -1,13 +1,25 @@
-package com.wei.elaslaticsearch;
+package com.wei.elaslaticsearch.bo;
 
-import com.sun.scenario.effect.impl.prism.PrImage;
+import org.springframework.data.elasticsearch.annotations.Document;
 
+@Document(indexName = "index_person", type = "person")
 public class Person {
     private String id;
     private Integer age;
     private boolean isStudent;
     private String sex;
     private String name;
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id='" + id + '\'' +
+                ", age=" + age +
+                ", isStudent=" + isStudent +
+                ", sex='" + sex + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 
     public Integer getAge() {
         return age;

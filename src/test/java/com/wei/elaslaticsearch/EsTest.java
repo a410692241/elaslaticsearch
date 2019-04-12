@@ -2,6 +2,7 @@ package com.wei.elaslaticsearch;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.wei.elaslaticsearch.bo.Person;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
@@ -15,7 +16,8 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+//import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.MatchQueryBuilder;
@@ -41,7 +43,7 @@ import java.util.UUID;
 
 public class EsTest {
     private String type = "index";
-    private String index = "fullText";
+    private String index = "search";
     public static final String HOST = "localhost";
     public static final int PORT = 9300;
     private static Client client = null;
@@ -52,7 +54,7 @@ public class EsTest {
     public void openConnect() throws UnknownHostException {
 
         client = new PreBuiltTransportClient(Settings.EMPTY).addTransportAddresses(
-                new InetSocketTransportAddress(InetAddress.getByName(HOST), PORT));
+                new TransportAddress(InetAddress.getByName(HOST), PORT));
     }
 
 
@@ -270,7 +272,7 @@ public class EsTest {
      * 通过ik分词器操作查询条件,并且将查询结果高亮显示
      */
     @Test
-    public void analyze() {
+    public void analyzeHighLight() {
         MatchQueryBuilder match = new MatchQueryBuilder("content", "中国美国公安部").analyzer("ik_max_word");
         HighlightBuilder highlightBuilder = new HighlightBuilder().field("*");
         highlightBuilder.preTags("<p style='color:red'>");
@@ -303,7 +305,6 @@ public class EsTest {
         PutMappingRequest mapping = Requests.putMappingRequest(indices).type(mappingType).source(builder);
 
         client.admin().indices().putMapping(mapping).actionGet();
-        client.close();
     }
 
     private void searchFunction(SearchResponse searchResponse) {
