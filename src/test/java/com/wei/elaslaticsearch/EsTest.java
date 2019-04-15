@@ -210,14 +210,16 @@ public class EsTest {
 
 
     }
+
     /**
-     * es通过类型删除
+     * es通过id删除
      */
     @Test
     public void delete() {
         DeleteResponse deleteResponse = client.prepareDelete(index, type, "AWoLf_0Mjmo9g6X8Q0yl").execute().actionGet();
         System.out.println("删除的索引是" + deleteResponse.getIndex());
     }
+
 
     /**
      * es通过索引id索引删除
