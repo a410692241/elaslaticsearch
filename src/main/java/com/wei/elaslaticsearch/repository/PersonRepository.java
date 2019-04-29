@@ -6,5 +6,4 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface PersonRepository extends ElasticsearchRepository<Person,String> {
-    Person queryAllBy(String id);
 }

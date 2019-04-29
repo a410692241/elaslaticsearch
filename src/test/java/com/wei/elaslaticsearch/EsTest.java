@@ -281,8 +281,6 @@ public class EsTest {
         highlightBuilder.postTags("</p>");
         SearchResponse searchResponse = client.prepareSearch(index).setTypes(type).setQuery(match).highlighter(highlightBuilder).setExplain(true).execute().actionGet();
         searchHightLightFunction(searchResponse);
-
-
     }
 
 
