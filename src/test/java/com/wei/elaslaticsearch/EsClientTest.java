@@ -16,20 +16,25 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.elasticsearch.search.sort.SortOrder;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
 import java.io.IOException;
 import java.util.Map;
 
 public class EsClientTest {
+    @Autowired
+    private ElasticsearchTemplate elasticsearchTemplate;
+
     @Test
     public void name() throws IOException {
         RestHighLevelClient highLevelClient = ESClientFactory.getHighLevelClient();
         SearchRequest searchRequest = new SearchRequest();
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(QueryBuilders.matchQuery("full_name", "上仙肉铺"));//对指定字段设置ik分词器
-        searchSourceBuilder.size(3000);
+        searchSourceBuilder.query(QueryBuilders.matchQuery("full_name", "饮用水"));//对指定字段设置ik分词器
+        searchSourceBuilder.size(100);
         searchSourceBuilder.from(0);
-        searchSourceBuilder.sort("category_id", SortOrder.DESC);
+        searchSourceBuilder.sort("spreadNormal", SortOrder.DESC);
         //指定高亮字段
         HighlightBuilder highlightBuilder = new HighlightBuilder();
         HighlightBuilder.Field highlightTitle = new HighlightBuilder.Field("full_name");
